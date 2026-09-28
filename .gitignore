@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+models/*.joblib
+!models/heart_disease_set_b_final.joblib
+models/*.json
+!models/heart_disease_set_b_final.json
+dataset/
+*.csv
+node_modules/

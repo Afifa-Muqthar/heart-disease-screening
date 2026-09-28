@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f2e9">
+  <title>Heart screening estimate</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="/" aria-label="Fieldnotes health home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span> FIELDNOTES <span class="wordmark-detail">/ HEALTH</span></a>
+    <span class="topbar-note">A research prototype <span class="status-dot"></span></span>
+  </header>
+  <main class="page-shell">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">HEART HEALTH <span>·</span> SCREENING ESTIMATE</p>
+      <h1 id="page-title">Heart health, in five<br class="desktop-break"> questions.</h1>
+      <p class="lede">Share five details to see how your answers compare with records in the reference dataset.</p>
+      <figure class="photo">
+        <img src="/static/assets/blood-pressure-equipment.jpg" alt="A blood pressure cuff, gauge, and stethoscope arranged on a table">
+        <figcaption>Measurements can help frame a conversation with a clinician.</figcaption>
+      </figure>
+    </section>
+    <section class="workbench" aria-label="Heart screening workbench">
+      <form id="screening-form" novalidate>
+        <div class="section-heading"><span class="step-number">01</span><div><h2>Your details</h2><p>All five answers are required.</p></div></div>
+        <div class="fields">
+          <label class="field" for="age"><span class="label-line">Age <span class="unit">YEARS</span></span><input id="age" name="age" type="number" min="18" max="100" step="1" inputmode="numeric" placeholder="e.g. 54" required><small>Enter 18–100. The reference data covers ages 28–77.</small></label>
+          <fieldset class="field"><legend class="label-line">Sex <span class="unit">AS RECORDED</span></legend><div class="segmented"><label><input type="radio" name="sex" value="Female" required><span>Female</span></label><label><input type="radio" name="sex" value="Male"><span>Male</span></label></div></fieldset>
+          <fieldset class="field cp-field"><legend class="label-line">Chest-pain category <span class="unit">SELECT ONE</span></legend><div class="cp-list">
+            <label><input type="radio" name="cp" value="typical angina" required><span><strong>Typical angina</strong><small>Chest discomfort with a pattern often associated with reduced blood flow to the heart.</small></span></label>
+            <label><input type="radio" name="cp" value="atypical angina"><span><strong>Atypical angina</strong><small>Chest discomfort that does not fit the typical pattern.</small></span></label>
+            <label><input type="radio" name="cp" value="non-anginal"><span><strong>Non-anginal</strong><small>Chest discomfort classified in the dataset as not typical angina.</small></span></label>
+            <label><input type="radio" name="cp" value="asymptomatic"><span><strong>Asymptomatic</strong><small>This is the dataset’s label for a chest-pain category; it does not mean low risk or no heart disease.</small></span></label>
+          </div></fieldset>
+          <fieldset class="field"><legend class="label-line">Does exertion, such as climbing stairs or brisk walking, bring on chest pain or discomfort?</legend><div class="segmented"><label><input type="radio" name="exang" value="true" required><span>Yes</span></label><label><input type="radio" name="exang" value="false"><span>No</span></label></div></fieldset>
+          <label class="field" for="trestbps"><span class="label-line">Resting systolic blood pressure <span class="unit">MMHG</span></span><input id="trestbps" name="trestbps" type="number" min="80" max="200" step="1" inputmode="numeric" placeholder="e.g. 130" required><small>Data range: 80–200 mmHg. A home cuff reading is fine.</small></label>
+        </div>
+        <div class="form-actions"><button id="submit-button" type="submit">See your estimate <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M3 10h13m-5-5 5 5-5 5"/></svg></button><p id="form-message" class="form-message" role="status" aria-live="polite">Answers are used only to create this estimate and are not saved.</p></div>
+      </form>
+      <aside class="result-card" aria-labelledby="result-title" aria-live="polite" aria-busy="false">
+        <div class="result-topline"><span class="step-number">02</span><span class="result-label">REFERENCE COMPARISON</span></div>
+        <div id="result-content" class="result-content">
+          <div class="empty-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18"/><path d="M24 14v20M14 24h20"/></svg></div>
+          <p class="empty-title" id="result-title">Your estimate will appear here.</p>
+          <p class="empty-copy">Complete the five details, then select “See your estimate”.</p>
+        </div>
+        <p class="disclaimer">Screening estimate from a clinic-patient dataset. Not a diagnosis, not population risk. Talk to a clinician about symptoms.</p>
+        <div class="result-foot"><span>SET B · 5 INPUTS</span><span>MODEL REFIT ON 920 ROWS</span></div>
+      </aside>
+    </section>
+    <section class="closing-note"><span class="note-rule"></span><p>This tool supports a conversation. It cannot confirm or rule out heart disease.</p><a href="#screening-form">Return to the questions <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M10 16V4m-5 5 5-5 5 5"/></svg></a></section>
+  </main>
+  <footer><span>FIELDNOTES / HEALTH</span><span>Designed for careful conversations</span></footer>
+</body>
+</html>

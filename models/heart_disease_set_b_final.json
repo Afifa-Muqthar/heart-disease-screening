@@ -1,0 +1,89 @@
+{
+  "model_file": "heart_disease_set_b_final.joblib",
+  "feature_order": [
+    "age",
+    "sex",
+    "cp",
+    "exang",
+    "trestbps"
+  ],
+  "target": {
+    "source_column": "num",
+    "rule": "num > 0",
+    "meaning": "disease present in dataset label"
+  },
+  "allowed_values": {
+    "age": {
+      "type": "integer",
+      "minimum": 18,
+      "maximum": 100
+    },
+    "sex": [
+      "Female",
+      "Male"
+    ],
+    "cp": [
+      "typical angina",
+      "atypical angina",
+      "non-anginal",
+      "asymptomatic"
+    ],
+    "exang": {
+      "No": false,
+      "Yes": true
+    },
+    "trestbps": {
+      "type": "number",
+      "unit": "mmHg",
+      "minimum": 80,
+      "maximum": 200
+    }
+  },
+  "imputation_defaults": {
+    "age": 54.0,
+    "trestbps": 130.0,
+    "sex": "Male",
+    "cp": "asymptomatic",
+    "exang": false
+  },
+  "zero_as_missing": [
+    "trestbps"
+  ],
+  "decision_threshold": 0.3431312360885493,
+  "bands": {
+    "lower": {
+      "name": "Lower",
+      "maximum_inclusive": 0.34,
+      "description": "Your answers resemble patients in this dataset who less often had heart disease. This is not a clearance. If you have symptoms, see a clinician.",
+      "reference_line": "In the reference dataset, about 1 in 4 patients in this group had heart disease."
+    },
+    "intermediate": {
+      "name": "Intermediate",
+      "minimum_exclusive": 0.34,
+      "maximum_exclusive": 0.84,
+      "description": "Your answers resemble a mix of patients with and without heart disease in this dataset. A clinician can tell these apart. This tool cannot.",
+      "reference_line": "In the reference dataset, about 6 in 10 patients in this group had heart disease."
+    },
+    "higher": {
+      "name": "Higher",
+      "minimum_inclusive": 0.84,
+      "description": "Your answers resemble patients in this dataset who more often had heart disease. This is not a diagnosis. Consider speaking with a clinician.",
+      "reference_line": "In the reference dataset, about 8 in 10 patients in this group had heart disease."
+    }
+  },
+  "threshold_tuning": {
+    "method": "approved threshold retained; figures refreshed from current training-partition grouped OOF split",
+    "training_oof_recall": 0.8574938574938575,
+    "training_oof_precision": 0.7255717255717256,
+    "precision_cost_vs_0_5": 0.0286861819708534,
+    "precision_drop_tolerance": 0.05,
+    "accepted": true
+  },
+  "random_state": 42,
+  "classifier": {
+    "type": "RandomForestClassifier",
+    "n_estimators": 300,
+    "class_weight": "balanced_subsample"
+  },
+  "disclaimer": "Screening estimate from a clinic-patient dataset, not a diagnosis or population risk."
+}
