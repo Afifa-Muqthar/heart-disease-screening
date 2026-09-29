@@ -1,0 +1,12 @@
+.git/
+.venv*/
+__pycache__/
+*.pyc
+.env
+dataset/
+training/
+tests/
+model/
+screenshots/
+models/heart_disease_best_performance_5.joblib
+models/heart_disease_user_friendly_5.joblib
