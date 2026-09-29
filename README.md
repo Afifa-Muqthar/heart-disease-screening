@@ -26,7 +26,7 @@ The browser requires age, sex, chest-pain category, exertion-related discomfort,
 
 ## Model and Evaluation
 
-The approved Set B Random Forest uses the target rule `num > 0` and the feature order age, sex, cp, exang, trestbps. The model was refit on all 920 rows. Headline grouped cross-validation results are recall **0.86**, precision **0.73**, and ROC-AUC **0.81 ± 0.06**. Leave-one-site-out ROC-AUC ranged from **0.66 to 0.84**. The holdout was previously viewed during candidate selection and is not presented as independent final validation.
+The Random Forest uses the target rule `num > 0` and the feature order age, sex, cp, exang, trestbps. The model was refit on all 920 rows. Headline grouped cross-validation results are recall **0.86**, precision **0.73**, and ROC-AUC **0.81 ± 0.06**. Leave-one-site-out ROC-AUC ranged from **0.66 to 0.84**. The holdout was previously viewed during candidate selection and is not presented as independent final validation.
 
 ## Tech Stack
 
@@ -44,13 +44,9 @@ py -3.12 -m venv .venv
 
 Open [http://127.0.0.1:8000](http://127.0.0.1:8000). The server reads `PORT` when set and binds to `127.0.0.1` for local runs. Vercel exposes the same Flask `app` as a Python function.
 
-### Deploy from GitHub with Vercel
+### Deployed with Vercel
+[https://heart-disease-screening.vercel.app](https://heart-disease-screening.vercel.app)
 
-1. Push this repository to GitHub, excluding local datasets, virtual environments, and candidate models as configured by `.gitignore`.
-2. In Vercel, choose **Add New → Project**, connect GitHub if prompted, and **Import** the repository.
-3. Keep the project root at the repository root. Let Vercel detect the Python app; do not set a static output directory or build command.
-4. Confirm the Python runtime is 3.12 and deploy. The root `app.py` exports `app`; `public/` contains the static files.
-5. After deployment, open the generated URL and check `/health`, the page, and a prediction submission. Each future push to the connected production branch triggers a deployment.
 
 ## Limitations
 
