@@ -1,6 +1,9 @@
 # Heart health screening estimate
 
 A five-input Flask prototype that compares answers with records in the UCI Heart Disease clinic dataset; it is a screening estimate, not a diagnosis.
+## Checkout 
+### Deployed with Vercel
+[https://heart-disease-screening.vercel.app](https://heart-disease-screening.vercel.app)
 
 ## Interface Preview
 
@@ -43,9 +46,6 @@ py -3.12 -m venv .venv
 ```
 
 Open [http://127.0.0.1:8000](http://127.0.0.1:8000). The server reads `PORT` when set and binds to `127.0.0.1` for local runs. Vercel exposes the same Flask `app` as a Python function.
-
-### Deployed with Vercel
-[https://heart-disease-screening.vercel.app](https://heart-disease-screening.vercel.app)
 
 
 ## Limitations
