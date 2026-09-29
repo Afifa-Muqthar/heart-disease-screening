@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "app.py": {
-      "excludeFiles": "{data/**,dataset/**,**/*.csv,.venv/**,**/.venv*/**,.git/**,**/.git/**,__pycache__/**,**/__pycache__/**,model/**,models/heart_disease_best_performance_5.joblib,models/heart_disease_user_friendly_5.joblib,training/**,tests/**,**/tests/**,__tests__/**,**/__tests__/**,**/test_*.py,**/*.test.py,public/**,assets/**,screenshots/**}"
+      "excludeFiles": "{dataset/**,training/**,tests/**,model/**,models/heart_disease_best_performance_5.joblib,models/heart_disease_user_friendly_5.joblib}"
     }
   }
 }
