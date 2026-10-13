@@ -74,7 +74,13 @@ def predict():
         return jsonify(error="Complete all five inputs before estimating.", missing=missing), 400
 
     try:
-        age = int(payload["age"])
+        age_value = payload["age"]
+        if isinstance(age_value, bool):
+            raise ValueError
+        age_number = float(age_value)
+        if not math.isfinite(age_number) or not age_number.is_integer():
+            raise ValueError
+        age = int(age_number)
         bp = float(payload["trestbps"])
         if not math.isfinite(bp):
             raise ValueError
@@ -85,23 +91,27 @@ def predict():
         return jsonify(error="Enter an age from 18 to 100."), 400
     if not 80 <= bp <= 200:
         return jsonify(error="Resting systolic blood pressure must be between 80 and 200 mmHg."), 400
+    if payload["sex"] not in CONFIG["allowed_values"]["sex"]:
+        return jsonify(error="Choose Female or Male for sex."), 400
+    if payload["cp"] not in CONFIG["allowed_values"]["cp"]:
+        return jsonify(error="Choose one of the listed chest-pain categories."), 400
+    if not isinstance(payload["exang"], bool):
+        return jsonify(error="Choose Yes or No for exertion-related discomfort."), 400
     if not 28 <= age <= 77:
         return jsonify(
             band="unavailable",
             band_name="Estimate unavailable",
             copy="This age is outside the dataset range (28–77). The estimate is unreliable, so no score was produced.",
         )
-    if payload["sex"] not in CONFIG["allowed_values"]["sex"]:
-        return jsonify(error="Choose Female or Male for sex."), 400
-    if payload["cp"] not in CONFIG["allowed_values"]["cp"]:
-        return jsonify(error="Choose one of the listed chest-pain categories."), 400
-    if payload["exang"] not in (True, False):
-        return jsonify(error="Choose Yes or No for exertion-related discomfort."), 400
 
     row = pd.DataFrame([{key: payload[key] for key in FEATURES}], columns=FEATURES)
     row["age"] = age
     row["trestbps"] = bp
-    score = float(MODEL.predict_proba(row)[0, 1])
+    try:
+        score = float(MODEL.predict_proba(row)[0, 1])
+    except Exception as error:
+        app.logger.error("Prediction inference failed (%s)", type(error).__name__)
+        return jsonify(error="The estimate could not be completed. Please try again later."), 500
     band_key, band = choose_band(score)
     # Keep the public response categorical. The reference line remains display copy.
     copy = f"{band['description']}\n{band['reference_line']}"

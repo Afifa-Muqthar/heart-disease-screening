@@ -4,16 +4,22 @@ const resultContent = document.querySelector("#result-content");
 const formMessage = document.querySelector("#form-message");
 const submitButton = document.querySelector("#submit-button");
 
-const disclaimer = "Screening estimate from a clinic-patient dataset. Not a diagnosis, not population risk. Talk to a clinician about symptoms.";
-
 function renderEmpty() {
   resultContent.innerHTML = '<div class="empty-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18"/><path d="M24 14v20M14 24h20"/></svg></div><p class="empty-title" id="result-title">Your estimate will appear here.</p><p class="empty-copy">Complete the five details, then select “See your estimate”.</p>';
   resultCard.dataset.state = "empty";
 }
 
 function showMessage(message, state = "error") {
-  resultContent.innerHTML = `<div class="state-symbol" aria-hidden="true">${state === "loading" ? '<span class="spinner"></span>' : '<svg viewBox="0 0 24 24"><path d="M12 3 2.8 20h18.4L12 3Z"/><path d="M12 9v5m0 3h.01"/></svg>'}</div><p class="empty-title" id="result-title">${state === "loading" ? "Comparing your answers…" : "We could not make an estimate."}</p><p class="empty-copy">${message}</p>`;
+  resultContent.innerHTML = `<div class="state-symbol" aria-hidden="true">${state === "loading" ? '<span class="spinner"></span>' : '<svg viewBox="0 0 24 24"><path d="M12 3 2.8 20h18.4L12 3Z"/><path d="M12 9v5m0 3h.01"/></svg>'}</div><p class="empty-title" id="result-title">${state === "loading" ? "Comparing your answers…" : "We could not make an estimate."}</p><p class="empty-copy"></p>`;
+  resultContent.querySelector(".empty-copy").textContent = message;
   resultCard.dataset.state = state;
+}
+
+function makeTextElement(tagName, className, text) {
+  const element = document.createElement(tagName);
+  element.className = className;
+  element.textContent = text;
+  return element;
 }
 
 function showEstimate(data) {
@@ -23,7 +29,25 @@ function showEstimate(data) {
   }
   const [description, referenceLine = ""] = data.copy.split("\n", 2);
   const bandName = data.band_name;
-  resultContent.innerHTML = `<p class="band-kicker">DATASET SIMILARITY</p><h2 class="band-title" id="result-title">${bandName}</h2><p class="band-copy">${description}</p><p class="reference-line">${referenceLine}</p><div class="band-scale" aria-label="Lower to higher similarity"><span class="scale-segment lower ${bandName === "Lower" ? "active" : ""}"></span><span class="scale-segment middle ${bandName === "Intermediate" ? "active" : ""}"></span><span class="scale-segment higher ${bandName === "Higher" ? "active" : ""}"></span><span class="scale-label low">LOWER</span><span class="scale-label mid">INTERMEDIATE</span><span class="scale-label high">HIGHER</span></div>`;
+  resultContent.replaceChildren(
+    makeTextElement("p", "band-kicker", "DATASET SIMILARITY"),
+    makeTextElement("h2", "band-title", bandName),
+    makeTextElement("p", "band-copy", description),
+    makeTextElement("p", "reference-line", referenceLine)
+  );
+  resultContent.querySelector(".band-title").id = "result-title";
+  const scale = document.createElement("div");
+  scale.className = "band-scale";
+  scale.setAttribute("aria-label", "Lower to higher similarity");
+  for (const [className, name] of [["lower", "Lower"], ["middle", "Intermediate"], ["higher", "Higher"]]) {
+    const segment = document.createElement("span");
+    segment.className = `scale-segment ${className}${bandName === name ? " active" : ""}`;
+    scale.append(segment);
+  }
+  for (const [className, label] of [["low", "LOWER"], ["mid", "INTERMEDIATE"], ["high", "HIGHER"]]) {
+    scale.append(makeTextElement("span", `scale-label ${className}`, label));
+  }
+  resultContent.append(scale);
   resultCard.dataset.state = "result";
 }
 
